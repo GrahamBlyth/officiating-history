@@ -4,4 +4,4 @@
 
 ## Another link
 
-[Official matches](docs/officials_v18.html)
+[Official matches](officials_v18.html)
