@@ -1,0 +1,231 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+
+
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tabular Output to Web Page</title>
+    <style>
+        /* Define table styles */
+        table {
+            border-collapse: collapse;
+            width: 100%;
+        }
+        th, td {
+            border: 1px solid #ddd;
+            padding: 8px;
+            text-align: left;
+        }
+        th {
+            background-color: #f2f2f2;
+        }
+    </style>
+
+
+
+
+
+</head>
+<body>
+
+<h2>Events Officiated by</h2>
+
+
+<div id="resultsout"></div>
+
+<script>
+// const fetch = require('node-fetch');
+
+// Function to search Wikidata using SPARQL
+async function searchWikidata(query) {
+    const endpointUrl = 'https://query.wikidata.org/sparql';
+    
+    // SPARQL query
+    const sparqlQueryMatchTemplate = `
+SELECT ?event ?eventLabel ?role ?roleLabel
+WHERE {
+  SERVICE wikibase:label { bd:serviceParam wikibase:language "[AUTO_LANGUAGE],en". }
+
+	  ?official rdfs:label '$instanceOfOfficial' @en.  # Specify the label you want to search for
+      ?official wdt:P106 wd:Q125045641. # Occupation "Lacrosse Official"
+	?official wdt:P1344 ?event;
+                p:P1344 [ps:P1344 ?event; pq:P2868 ?role].  
+
+ 
+  # Label  in English
+  SERVICE wikibase:label { bd:serviceParam wikibase:language "[AUTO_LANGUAGE],en". }
+}
+ ORDER BY ASC(?eventLabel)
+		LIMIT 100
+    `;
+
+    // END SPARQL query	
+	
+	
+const this_official = query;  
+console.log('This Official: ', this_official);
+
+ // Define the parameters
+const parameters = {
+    instanceOfOfficial: this_official // 
+};
+
+// Inject parameters into the SPARQL query template
+const sparqlQuery = sparqlQueryMatchTemplate.replace(/\$([a-zA-Z]+)/g, (_, paramName) => {
+    return parameters[paramName] || '';
+});
+ 
+
+
+
+    const url = endpointUrl + '?query=' + encodeURIComponent(sparqlQuery) + '&format=json';
+    
+    try {
+        const response = await fetch(url);
+        const data = await response.json();
+        console.log('Data: ', data);
+        // Extracting results
+         results = data.results.bindings.map(result => ({
+            // id: result.item.value,
+            // game: result.itemLabel.value,
+			event: result.eventLabel.value,
+			role: result.roleLabel.value,
+
+			
+        }));
+
+//		updatePointInTime(results);
+		// console.log(results);
+
+        return results;
+    } catch (error) {
+        console.error('Error searching Wikidata:', error);
+        return [];
+    }
+}
+
+
+
+//////////////////////////////////////////////////////////////////////////////////////////
+
+
+        function displayResults(jsonResult) {
+            const resultsDiv = document.getElementById('resultsout');
+            resultsDiv.innerHTML = ''; // Clear previous results
+
+            const bindings = jsonResult.results.bindings;
+
+            if (bindings.length === 0) {
+                resultsDiv.textContent = 'No results found.';
+                return;
+            }
+
+            const ul = document.createElement('ul');
+            bindings.forEach(binding => {
+                const li = document.createElement('li');
+                li.textContent = `${binding.itemLabel.value} (${binding.item.value})`;
+                ul.appendChild(li);
+            });
+
+            resultsDiv.appendChild(ul);
+        }
+
+//////////////////////////////////////////////////////////////////////////////////////////
+
+// Function to update the 'pointInTime' property to just the date part
+function updatePointInTime(data) {
+  data.forEach(item => {
+	// console.log(item.game_date)
+    item.game_date = new Date(item.game_date).toISOString().split('T')[0]; // Extracts YYYY-MM-DD
+	// console.log('New: ',item.game_date);
+  });
+}
+
+//////////////////////////////////////////////////////////////////////////////////////////
+    // Function to escape special characters
+    function escapeSpecialChars(str) {
+        return str.replace(/'/g, "\\'");
+    }
+//////////////////////////////////////////////////////////////////////////////////////////	
+
+const official_name_raw = prompt("Enter the name of an official:");
+
+// console.log('OFFICIAL'S NAME',official_name);
+console.log('Game; ', official_name_raw);
+
+let official_name = escapeSpecialChars(official_name_raw);
+
+var myresults = searchWikidata(official_name)
+    .then(results => {
+		// console.log('OFFICIAL'S NAME', official_name);
+        // console.log('Search results 2:', results);
+		// var game = results[0];
+		console.log('Game; ', official_name);
+		// console.log('Game; ', game);
+		// console.log('match: ', game.hometeam);
+		// var thishometeam = game.hometeam;
+		// var thisawayteam = game.awayteam;
+	 const outputDiv = document.getElementById('resultsout');
+	
+	// var matchParagraph = document.createElement('p');
+	// matchParagraph.textContent = thishometeam + ' ' + thisawayteam;
+	// outputDiv.appendChild(matchParagraph);
+
+		// var game = results[1];
+		// console.log('Game; ', game);
+		// console.log('match: ', game.hometeam);
+		// var thishometeam = game.hometeam;
+		// var thisawayteam = game.awayteam;
+
+//	var matchParagraph = document.createElement('p');
+//	matchParagraph.textContent = thishometeam + ' ' + thisawayteam;
+//	outputDiv.appendChild(matchParagraph);
+//	var matchParagraph = document.createElement('p');
+//	matchParagraph.textContent = 'Game: ' $thishometeam 'v ' $thisawayteam);
+//	outputDiv.appendChild(matchParagraph);
+
+
+	var matchParagraph = document.createElement('p');
+	matchParagraph.textContent = official_name_raw;
+	outputDiv.appendChild(matchParagraph);
+
+
+
+	const table = document.createElement('table');
+	
+	        // Create and append table header row
+        const headerRow = table.createTHead().insertRow();
+        for (const key in results[0]) {
+            const th = document.createElement('th');
+            th.textContent = key.toUpperCase();
+            headerRow.appendChild(th);
+        }
+	
+	
+	        // Create and append table body rows
+        const tbody = table.createTBody();
+        results.forEach(item => {
+            const row = tbody.insertRow();
+            for (const key in item) {
+                const cell = row.insertCell();
+                cell.textContent = item[key];
+            }
+        });	
+        // Append the table to the output div
+        outputDiv.appendChild(table);		
+		
+    })
+	
+    .catch(error => {
+        console.error('Error:', error);
+    });
+	
+        // console.log('Search results 3:', myresults);	
+	
+
+</script>
+
+</body>
+</html>
