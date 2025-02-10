@@ -1,0 +1,410 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>SPARQL Query Example</title>
+  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+</head>
+<body>
+  <h1>Select Event</h1>
+  <select id="eventDropdown">
+    <option value="">Select an event</option>
+  </select>
+
+  <h2>Officials at championship</h2>
+  <table border="1">
+    <thead>
+      <tr>
+        <th>Game</th>
+        <th>Home</th>
+		<th>-</th>
+		<th>Away</th>
+		<th>-</th>
+		<th>hof</th>
+		<th>o1</th>
+		<th>o2</th>
+		<th>cbo</th>
+		<th>bm</th>		
+      </tr>
+    </thead>
+    <tbody id="eventInfo">
+    </tbody>
+  </table>
+
+  <script>
+    const sparqlEndpoint = 'https://query.wikidata.org/sparql';
+
+    function fetchContinents() {
+      const query = `
+        SELECT ?continent ?continentLabel WHERE {
+          ?continent wdt:P31 wd:Q5107 .
+          SERVICE wikibase:label { bd:serviceParam wikibase:language "[AUTO_LANGUAGE],en". }
+        }
+      `;
+
+      $.ajax({
+        url: sparqlEndpoint,
+        data: { query: query, format: 'json' },
+        success: function(data) {
+          const dropdown = $('#continentDropdown');
+          data.results.bindings.forEach(item => {
+            const value = item.continent.value;
+            const label = item.continentLabel.value;
+            dropdown.append(new Option(label, value));
+          });
+        }
+      });
+    }
+
+    function fetchCountryInfo(continent) {
+      const query = `
+        SELECT ?country ?countryLabel ?capital ?capitalLabel ?population WHERE {
+          ?country wdt:P31 wd:Q6256 ;  # Instance of country
+                  wdt:P30 <${continent}> ;  # Located in continent
+                  wdt:P36 ?capital ;  # Capital
+                  wdt:P1082 ?population .  # Population
+          SERVICE wikibase:label { bd:serviceParam wikibase:language "[AUTO_LANGUAGE],en". }
+        }
+        ORDER BY ?countryLabel
+      `;
+
+      $.ajax({
+        url: sparqlEndpoint,
+        data: { query: query, format: 'json' },
+        success: function(data) {
+          const tbody = $('#countryInfo');
+          tbody.empty();
+          data.results.bindings.forEach(item => {
+            const country = item.countryLabel.value;
+            const capital = item.capitalLabel.value;
+            const population = item.population.value;
+            const row = `<tr>
+                          <td>${country}</td>
+                          <td>${capital}</td>
+                          <td>${population}</td>
+                        </tr>`;
+            tbody.append(row);
+          });
+        }
+      });
+    }
+
+///////////////////////////////////////////////////////////////////////////////////
+async function fetchEvents() {
+
+const query = `
+
+    SELECT DISTINCT ?event ?eventLabel WHERE {
+     
+		  SERVICE wikibase:label { bd:serviceParam wikibase:language "[AUTO_LANGUAGE],en". }
+      {
+        ?event p:P641 ?statement0.
+        ?statement0 (ps:P641/(wdt:P279*)) wd:Q185851.
+      }
+      UNION
+      {
+        ?event p:P641 ?statement1.
+        ?statement1 (ps:P641/(wdt:P279*)) wd:Q3003786.
+      }
+      UNION
+      {
+        ?event p:P641 ?statement2.
+        ?statement2 (ps:P641/(wdt:P279*)) wd:Q2302906.
+      }      
+
+      {
+        ?event p:P31 ?statement3.
+        ?statement3 (ps:P31/(wdt:P279*)) wd:Q1344963.
+      }
+      UNION
+      {      
+        ?event p:P31 ?statement4.
+        ?statement4 (ps:P31/(wdt:P279*)) wd:Q51031626.
+      }
+        
+      ?event p:P31 ?statement5.
+      ?statement5 (ps:P31/(wdt:P279*)) wd:Q27020041.
+
+	  
+	  MINUS
+      {
+      ?event p:P2094 ?statement6.
+      ?statement6 (ps:P2094/(wdt:P279*)) wd:Q6581072.
+      }
+ 
+ 
+    }
+	
+     ORDER BY ASC(?eventLabel) 
+     LIMIT 200
+	 
+`;
+
+    // const url = endpointUrl + '?query=' + encodeURIComponent(sparqlQueryEvents) + '&format=json';
+    // const response = await fetch(url);
+    // const data = await response.json();
+    // return data.results.bindings;
+	
+	
+	     $.ajax({
+        url: sparqlEndpoint,
+        data: { query: query, format: 'json' },
+        success: function(data) {
+          const dropdown = $('#eventDropdown');
+          data.results.bindings.forEach(item => {
+            const value = item.event.value;
+            const label = item.eventLabel.value;
+            dropdown.append(new Option(label, value));
+          });
+        }
+      });
+    }
+
+///////////////////////////////////////////////////////////////////////////////////
+
+    function fetchMatchInfo(this_event) {
+
+      const query = `
+
+		SELECT DISTINCT ?iteme ?itemeLabel ?eventLabel ?game ?date ?countryhomeLabel ?teamhomescore ?countryawayLabel ?teamawayscore ?hofLabel ?o1Label ?o2Label ?cboLabel ?bmLabel
+		WHERE {
+		SERVICE wikibase:label { bd:serviceParam wikibase:language "[AUTO_LANGUAGE],en". }
+
+	  # ?event rdfs:label '$instanceOfEvent' @en.  # Specify the label you want to search for
+	  
+	  
+	        # ?item wdt:P179 ?event;
+			# ?iteme wdt:P179 <${event}>;
+
+			# wdt:P585 ?date.
+
+
+	        ?iteme wdt:P179 <${this_event}>;
+            p:P1923 [ps:P1923 ?teamhome; pq:P3831 wd:Q24633211];
+            p:P1923 [ps:P1923 ?teamaway; pq:P3831 wd:Q24633216];
+            p:P1923 [ps:P1923 ?teamhome; pq:P1351 ?teamhomescore];
+            p:P1923 [ps:P1923 ?teamaway; pq:P1351 ?teamawayscore];
+			p:P179 [ps:P179 ?event; pq:P1545 ?ordinal];
+            # p:P710 [ps:P710 ?o2; pq:P3831 wd:Q125257621];
+			# p:P710 [ps:P710 ?o1; pq:P3831 wd:Q125257557];
+			# p:P710 [ps:P710 ?hof; pq:P3831 wd:Q125086743];
+			wdt:P179 ?event;
+			p:P179 [ps:P179 ?event; pq:P1545 ?ordinal];
+			wdt:P585 ?date.
+			
+			OPTIONAL {?iteme wdt:P179 ?event;
+  			p:P710 [ps:P710 ?hof2; pq:P3831 wd:Q125086743].
+			}
+			OPTIONAL {?iteme wdt:P179 ?event;
+  			p:P710 [ps:P710 ?o12; pq:P3831 wd:Q125257557].
+			} 
+			OPTIONAL {?iteme wdt:P179 ?event;
+  			p:P710 [ps:P710 ?bm2; pq:P3831 wd:Q125927079].
+			}
+			OPTIONAL {?iteme wdt:P179 ?event;
+			p:P710 [ps:P710 ?cbo2; pq:P3831 wd:Q125086872].
+			}
+			OPTIONAL {?iteme wdt:P179 ?event;
+			p:P710 [ps:P710 ?o22; pq:P3831 wd:Q125257621].
+			}					
+			OPTIONAL{?iteme wdt:P179 ?event;
+			p:P710 [ps:P710 ?ro2; pq:P3831 wd:Q126122179].
+			}
+			
+	
+			BIND(xsd:integer(?ordinal) AS ?game)
+			BIND(COALESCE(?hof2, "-") AS ?hof)
+			BIND(COALESCE(?o12, "-") AS ?o1)
+			BIND(COALESCE(?o22, "-") AS ?o2)
+			BIND(COALESCE(?cbo2, "-") AS ?cbo)
+			BIND(COALESCE(?ro2, ?bm2) AS ?bmro)
+			BIND(COALESCE(?bmro, "-") AS ?bm)
+		?teamhome wdt:P1532 ?countryhome.
+		?teamaway wdt:P1532 ?countryaway
+}
+        ORDER BY ASC(?game)
+		LIMIT 200
+
+
+    `;
+
+
+console.log('Parameter received to search for games: ', event);
+
+      $.ajax({
+        url: sparqlEndpoint,
+        data: { query: query, format: 'json' },
+        success: function(data) {
+          const tbody = $('#eventInfo');
+          tbody.empty();
+		  console.log('Search events: ', data.results);
+          data.results.bindings.forEach(item => {
+			const game = item.game.value;
+			const home = item.countryhomeLabel.value;
+			const score_h = item.teamhomescore.value;
+			const away = item.countryawayLabel.value;
+			const score_a = item.teamawayscore.value;
+			const hof = item.hofLabel.value;
+			const o1 = item.o1Label.value;
+			const o2 = item.o2Label.value;			
+			const cbo = item.cboLabel.value;
+			const bm = item.bmLabel.value;			
+			
+			           const row = `<tr>
+                          <td>${game}</td>
+                          <td>${home}</td>
+						  <td>${score_h}</td>
+						  <td>${away}</td>
+						  <td>${score_a}</td>
+						  <td>${hof}</td>
+						  <td>${o1}</td>
+						  <td>${o2}</td>
+						  <td>${cbo}</td>
+						  <td>${bm}</td>						  
+                        </tr>`;
+
+
+
+
+            tbody.append(row);
+			// console.log('Parameter received by search: ', this_event);
+			// console.log('Event: ', event);
+			// console.log('Game: ', game);
+			// console.log('Date: ', game_date);
+          });
+        }
+      });
+    }
+
+///////////////////////////////////////////////////////////////////////////////////
+
+    function fetchMatchInfoOriginal(event) {
+
+      const query = `
+		SELECT ?item ?itemLabel ?eventLabel ?game ?date ?countryhomeLabel ?teamhomescore ?countryawayLabel ?teamawayscore ?hofLabel ?o1Label ?o2Label ?cboLabel ?bmLabel
+		WHERE {
+		SERVICE wikibase:label { bd:serviceParam wikibase:language "[AUTO_LANGUAGE],en". }
+
+	  # ?event rdfs:label '$instanceOfEvent' @en.  # Specify the label you want to search for
+	  
+	  
+	        # ?item wdt:P179 ?event;
+			?item wdt:P179 <${event}>
+            p:P1923 [ps:P1923 ?teamhome; pq:P3831 wd:Q24633211];
+            p:P1923 [ps:P1923 ?teamaway; pq:P3831 wd:Q24633216];
+            p:P1923 [ps:P1923 ?teamhome; pq:P1351 ?teamhomescore];
+            p:P1923 [ps:P1923 ?teamaway; pq:P1351 ?teamawayscore];
+            # p:P710 [ps:P710 ?o2; pq:P3831 wd:Q125257621];
+			# p:P710 [ps:P710 ?o1; pq:P3831 wd:Q125257557];
+			# p:P710 [ps:P710 ?hof; pq:P3831 wd:Q125086743];
+			wdt:P179 ?event;
+			p:P179 [ps:P179 ?event; pq:P1545 ?ordinal];
+			wdt:P585 ?date. 
+	OPTIONAL {?item wdt:P179 ?event;
+  			p:P710 [ps:P710 ?hof2; pq:P3831 wd:Q125086743].
+			} 
+
+	OPTIONAL {?item wdt:P179 ?event;
+  			p:P710 [ps:P710 ?o12; pq:P3831 wd:Q125257557].
+			} 
+
+
+	OPTIONAL {?item wdt:P179 ?event;
+  			p:P710 [ps:P710 ?bm2; pq:P3831 wd:Q125927079].
+			}
+	OPTIONAL {?item wdt:P179 ?event;
+			p:P710 [ps:P710 ?cbo2; pq:P3831 wd:Q125086872].
+			}
+	OPTIONAL {?item wdt:P179 ?event;
+			p:P710 [ps:P710 ?o22; pq:P3831 wd:Q125257621].
+			}			
+			
+	  OPTIONAL{?item wdt:P179 ?event;
+			p:P710 [ps:P710 ?ro2; pq:P3831 wd:Q126122179].
+			}
+			
+			BIND(xsd:integer(?ordinal) AS ?game)
+			BIND(COALESCE(?hof2, "-") AS ?hof)
+			BIND(COALESCE(?o12, "-") AS ?o1)
+			BIND(COALESCE(?o22, "-") AS ?o2)
+			BIND(COALESCE(?cbo2, "-") AS ?cbo)
+			BIND(COALESCE(?ro2, ?bm2) AS ?bmro)
+			# BIND(COALESCE(?ro2, "-") AS ?ro)
+			BIND(COALESCE(?bmro, "-") AS ?bm)
+		?teamhome wdt:P1532 ?countryhome.
+		?teamaway wdt:P1532 ?countryaway
+}
+        ORDER BY ASC(?game)
+		LIMIT 200
+    `;
+const this_event = event;  
+
+
+ // Define the parameters
+const parameters = {
+    instanceOfEvent: this_event // 
+};
+
+console.log('Parameter received to search for games: ', this_event);
+
+      $.ajax({
+        url: sparqlEndpoint,
+        data: { query: query, format: 'json' },
+        success: function(data) {
+          const tbody = $('#eventInfo');
+          tbody.empty();
+          data.results.bindings.forEach(item => {
+			const event = result.eventLabel.value;
+			const game = result.game.value;
+			const game_date = result.date.value;
+			const home = result.countryhomeLabel.value;
+			const home_score = result.teamhomescore.value;
+			const away = result.countryawayLabel.value;
+			const away_score = result.teamawayscore.value;
+			const hof = result.hofLabel.value;
+			const o1 = result.o1Label.value;
+			const o2 = result.o2Label.value;
+			const cbo = result.cboLabel.value;
+			const bm = result.bmLabel.value;
+			
+			           const row = `<tr>
+                          <td>${event}</td>
+                          <td>${game}</td>
+                          <td>${game_date}</td>
+                        </tr>`;
+
+
+
+
+            tbody.append(row);
+			console.log('Parameter received by search: ', this_event);
+			console.log('Event: ', event);
+			console.log('Game: ', game);
+			console.log('Date: ', game_date);
+          });
+        }
+      });
+    }
+ 
+
+
+///////////////////////////////////////////////////////////////////////////////////
+
+    $(document).ready(function() {
+      // fetchContinents();
+      fetchEvents(); 
+      $('#eventDropdown').change(function() {
+        const selectedEvent = $(this).val();
+		console.log('Parameter received by search: ', selectedEvent);
+        if (selectedEvent) {
+          fetchMatchInfo(selectedEvent);
+        } else {
+          $('#eventInfo').empty();
+		  console.log('No match info: ');
+        }
+      });
+    });
+  </script>
+</body>
+</html>
