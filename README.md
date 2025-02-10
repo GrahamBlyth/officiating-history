@@ -43,6 +43,10 @@ returns all officials at a given event using a drop-down list of events. This qu
 
 returns all officials at a given women's event using a drop-down list of events. This query can be a little slow, 10 to 15 seconds so please be patient.
 
+[Games at men's event](officials_at_men_events_v1.html)
+
+returns all officials at a given men's event using a drop-down list of events. This query can be a little slow, 10 to 15 seconds so please be patient.
+
 [Role of official at events](officials_roles_v1.html)
 
 returns a list of the events in which a given official participated. Again, the official's name needs to be exacly right or nothing is returned.
