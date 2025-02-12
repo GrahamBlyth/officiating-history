@@ -35,7 +35,7 @@ There have been a number of instances where a given official's name has differed
 If you search for the games of an official and get nothing back try the officials_at_event query for an event you believe that official took part in. Hopefully you will find the right spelling of their name. In the future we can look to make this a bit more clever if we move beyond a trial.
 
 
-[Games at event](officials_at_events_v2.html)
+[Games at event](officials_at_events_v3.html)
 
 returns all officials at a given event using a drop-down list of events. This query can be a little slow, 10 to 15 seconds so please be patient.
 
@@ -47,7 +47,7 @@ returns all officials at a given women's event using a drop-down list of events.
 
 returns all officials at a given men's event using a drop-down list of events. This query can be a little slow, 10 to 15 seconds so please be patient.
 
-[Role of official at events](officials_roles_v3.html)
+[Role of official at events](officials_roles_v1.html)
 
 returns a list of the events in which a given official participated. Again, the official's name needs to be exacly right or nothing is returned.
 
