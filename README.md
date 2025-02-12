@@ -54,7 +54,7 @@ returns a list of the events in which a given official participated. Again, the 
 # Advantages and disadvantages of WikiData
 [Welcome to Wikidata](https://www.wikidata.org/wiki/Wikidata:Main_Page)
 
-In addition to making some searches a lot easier WikiData and databases generally allow errors to be corrected or changes made with less pain. For example - if Rob Smith wants to be listed as Robert Smith the change only needs to be made in one place and it will (almost) immediately be reflected in the output from any queries.
+In addition to making some searches a lot easier WikiData and databases generally allow errors to be corrected or changes to be made with less pain. For example - if Rob Smith wants to be listed as Robert Smith the change only needs to be made in one place and it will (almost) immediately be reflected in the output from any queries.
 By its nature the Wikipedia family of tools and the WikiData items in particular are subject to change. Since I started this work for example there have been more that 20 changes to the entry for Iroquois. When I started the associated WikiData item would return Haudenosaunee, today it returns Iroquois. There are several other teams where the associated country label has changed. Although lacrosse officiating is super important it could be problematic to change country labels within WikiData!
 
 
