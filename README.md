@@ -55,7 +55,7 @@ returns a list of the events in which a given official participated. Again, the 
 
 Here are the excel workbooks that contain the officiating records collected so far
 
-[Women's world championships](Officiating History Data - Womens.xlsx) - this file can be downloaded. Last updated 21 February 2025.
+[Women's world championships](https://grahamblyth.github.io/officiating-history/download/Officiating History Data - Womens.xlsx) - this file can be downloaded. Last updated 21 February 2025.
 
 # Advantages and disadvantages of WikiData
 [Welcome to Wikidata](https://www.wikidata.org/wiki/Wikidata:Main_Page)
