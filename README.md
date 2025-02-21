@@ -24,7 +24,7 @@ What has not been loaded yet
 - coaching/assessment assignments
 - field used
 - group or placement for game
-- any women's officials or games
+- most women's officials or games
 
 So far there are three queries. For now at least it will be best to use a computer or device with a big screen. To run the scripts just click one of the links.
 
@@ -50,6 +50,12 @@ returns all officials at a given men's event using a drop-down list of events. T
 [Role of official at events](officials_roles_v1.html)
 
 returns a list of the events in which a given official participated. Again, the official's name needs to be exacly right or nothing is returned.
+
+# Master records
+
+Here are the excel workbooks that contain the officiating records collected so far
+
+[Women's world championships](Officiating History Data - Womens.xlsx) - this file can be downloaded. Last updated 21 February 2025.
 
 # Advantages and disadvantages of WikiData
 [Welcome to Wikidata](https://www.wikidata.org/wiki/Wikidata:Main_Page)
