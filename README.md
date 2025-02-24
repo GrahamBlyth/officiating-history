@@ -1,5 +1,3 @@
-# Welcome
-
 Over the years Lindsay Scott and Dennis Kehoe have done all the hard work and collected together lots of information about world level games. There are a few gaps in the early years but it is a great record. The core information is held in spreadsheets, one for each championship. For some queries you might have spreadsheets are fine but there will be queries that some sort of database approach will make searches across championships much easier.
 
 Officiating History Data - Mens - shared.xlsx
