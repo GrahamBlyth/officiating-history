@@ -1,5 +1,10 @@
 Over the years Lindsay Scott and Dennis Kehoe have done all the hard work and collected together lots of information about world level games. There are a few gaps in the early years but it is a great record. The core information is held in spreadsheets, one for each championship. For some queries you might have spreadsheets are fine but there will be queries that some sort of database approach will make searches across championships much easier.
 
+** LATEST ADDITIONS **
+
+- 2025 men's U20 in Jeju, Korea
+- 2025 men's men's European Championship Wroclaw, Poland (This is the first European championship added)
+
 Officiating History Data - Mens - shared.xlsx
 Contains a copy of the master spreadsheets. These include some minor changes from the Lindsay and Dennis originals. These changes are mainly to get consistent names for officials.
 
@@ -17,6 +22,7 @@ All men's world level games for which we have records
 - scores
 - dates
 - admin roles
+
 
 What has not been loaded yet
 - coaching/assessment assignments
