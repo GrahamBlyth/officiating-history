@@ -2,6 +2,8 @@ Over the years Lindsay Scott and Dennis Kehoe have done all the hard work and co
 
 ** LATEST ADDITIONS **
 
+- 2017 men's european box lacrosse in Turku, Finland
+- 2024 men's european U20 in Wroclaw, Poland
 - 2025 men's U20 in Jeju, Korea
 - 2025 men's men's European Championship Wroclaw, Poland (This is the first European championship added)
 
@@ -64,6 +66,8 @@ Here are the excel workbooks that contain the officiating records collected so f
 [Men's world championships](https://grahamblyth.github.io/officiating-history/download/Officiating_History_Data_Mens_Shared.xlsx) - this file can be downloaded. Last updated April 2026.
 
 [Women's world championships](https://grahamblyth.github.io/officiating-history/download/Officiating_History_Data_Womens.xlsx) - this file can be downloaded. Last updated 21 February 2025.
+
+[Men's European Championships](https://grahamblyth.github.io/officiating-history/download/Officiating_History_data_europe_men.xlsx) - this file can be downloaded. Last updated 2 April 2026.
 
 # Advantages and disadvantages of WikiData
 [Welcome to Wikidata](https://www.wikidata.org/wiki/Wikidata:Main_Page)
