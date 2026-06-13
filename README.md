@@ -2,6 +2,8 @@ Over the years Lindsay Scott and Dennis Kehoe have done all the hard work and co
 
 ** LATEST ADDITIONS **
 
+- 2022 men's european qualifier, Wroclaw, Poland (no BMs, no coach assignments, Turkey v Latvia missing
+- 2022 men's european box, Hanover, Germany (no coach assignments)
 - 2017 men's european box lacrosse in Turku, Finland
 - 2024 men's european U20 in Wroclaw, Poland
 - 2025 men's U20 in Jeju, Korea
