@@ -2,6 +2,8 @@ Over the years Lindsay Scott and Dennis Kehoe have done all the hard work and co
 
 ** LATEST ADDITIONS **
 
+- 2012 men's european championship, Amsterdam (no coach assignments)
+- 2016 men's european championship, Budapest (no BMs, no coach assignments)
 - 2022 men's european qualifier, Wroclaw, Poland (no BMs, no coach assignments, Turkey v Latvia missing
 - 2022 men's european box, Hanover, Germany (no coach assignments)
 - 2017 men's european box lacrosse in Turku, Finland
