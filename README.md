@@ -71,7 +71,7 @@ Here are the excel workbooks that contain the officiating records collected so f
 
 [Women's world championships](https://grahamblyth.github.io/officiating-history/download/Officiating_History_Data_Womens.xlsx) - this file can be downloaded. Last updated 21 February 2025.
 
-[Men's European Championships](https://grahamblyth.github.io/officiating-history/download/Officiating_History_data_europe_men.xlsx) - this file can be downloaded. Last updated 2 April 2026.
+[Men's European Championships](https://grahamblyth.github.io/officiating-history/download/Officiating_History_data_europe_men.xlsx) - this file can be downloaded. Last updated 17 June 2026.
 
 # Advantages and disadvantages of WikiData
 [Welcome to Wikidata](https://www.wikidata.org/wiki/Wikidata:Main_Page)
