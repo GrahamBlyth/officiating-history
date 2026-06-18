@@ -11,6 +11,8 @@ Over the years Lindsay Scott and Dennis Kehoe have done all the hard work and co
 - 2025 men's U20 in Jeju, Korea
 - 2025 men's men's European Championship Wroclaw, Poland (This is the first European championship added)
 
+  [Europe summary](europe.md)
+
 Officiating History Data - Mens - shared.xlsx
 Contains a copy of the master spreadsheets. These include some minor changes from the Lindsay and Dennis originals. These changes are mainly to get consistent names for officials.
 
