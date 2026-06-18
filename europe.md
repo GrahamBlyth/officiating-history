@@ -1,13 +1,10 @@
 # Men
 
-| Championship | Results | Officials | Management Team | 
-
-| 2017 Box | Y | Y | Y |
-
-| 2022 Box | Y | Y | Y |
-
-
-| Header 1 | Header 2 | Header 3 |
-|---|---|---|
-| Row 1, Column 1 | Row 1, Column 2 | Row 1, Column 3 |
-| Row 2, Column 1 | Row 2, Column 2 | Row 2, Column 3 |
+| Championship | Results | Officials | Management team | assignments | Coaching |
+|---|---|---|---|---|---|
+| 2017 Box | Y | Y | Y | Y | Y |
+| 2022 Box | Y | Y | Y | Y | Y |
+| 2012 | Y | Y | Y | Y | No |
+| 2016 | Y | Y | Y | Y | No |
+| 2022 | Y | Y | Y | Y | No |
+| 2025 | Y | Y | Y | Y | Y |
