@@ -19,5 +19,5 @@
 
 | Championship | Results | Officials | Management team | assignments | Coaching |
 |---|---|---|---|---|---|
-| 2018 U20 | Y | Y | Y | Y | ? |
-| 2023 U21 | Y | Y | Y | Y | No |
+| 2018 U20 | Y | Y | N | Y | ? |
+| 2023 U21 | Y | Y | N | Y | No |
